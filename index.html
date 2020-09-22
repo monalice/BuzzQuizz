@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuzzQuizz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="BuzzQuizz/assets/reset.css">
+    <link rel="stylesheet" href="BuzzQuizz/assets/login.css">
+    <link rel="stylesheet" href="BuzzQuizz/assets/meusQuizzes.css">
+</head>
+
+<body>
+
+    <section id="login">
+        <div class="containerLogin">
+            <h1>BuzzQuizz</h1>
+            <p>O Quiz que você Quizzer</p>
+
+            <div class="dadosLogin">
+                <input type="email" placeholder="E-mail">
+                <input type="password" placeholder="Senha">
+                <button class="entrar">Entrar</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="meusQuizzes">
+
+        <header><h1>BuzzQuizz</h1></header>
+
+        <div class="containerQuizzes">
+
+            <div class="novoQuizz">
+                <span>Novo Quizz</span>
+                <div class="addQuizz">
+                    <ion-icon name="add-circle-outline"></ion-icon>
+                </div>
+            </div>
+
+            <div class="quizzesCriados">
+                <p>O quão Potterhead você é?</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="criandoQuizz">
+        <header><h1>BuzzQuizz</h1></header>
+
+        <div class="containerCriando">
+            <input type="text" placeholder="Digite o título do seu quizz">
+
+            <div class="perguntas">
+                <h2>Pergunta 1</h2>
+                <input type="text" placeholder="Digite a pergunta">
+                <div class="respostas">
+
+                    <input class="correto" type="text" placeholder="Digite a resposta correta">
+                    <input class="correto" type="text" placeholder="Link para a imagem correta">
+
+                    <input class="incorreto" type="text" placeholder="Digite a resposta errada 1">
+                    <input class="incorreto" type="text" placeholder="Link para a imagem errada 1">
+
+                    <input class="incorreto" type="text" placeholder="Digite a resposta errada 2">
+                    <input class="incorreto" type="text" placeholder="Link para a imagem errada 2">
+
+                    <input class="incorreto" type="text" placeholder="Digite a resposta errada 3">
+                    <input class="incorreto" type="text" placeholder="Link para a imagem errada 3">
+
+                </div>
+            </div>
+            <button class="addPergunta"></button>
+
+            <div class="niveis">
+                <h2>Nível 1</h2>
+
+                <input type="text" required placeholder="% Mínima de Acerto do nível">
+                <input type="text" required placeholder="% Máxima de Acerto do nível">
+
+               <input type="text" placeholder="Títudo do nível">
+               <input type="text" placeholder="Link da imagem do nível">
+               <input type="text" placeholder="Descrição do nível">
+            </div>
+            <button class="addNivel"></button>
+
+            <button class="publicar">Publicar</button>
+
+        </div>
+    </section>
+
+    <section id="perguntaQuizz">
+        <header><h1>BuzzQuizz</h1></header>
+
+        <div>
+            <h2>O quão Potterhead você é?</h2>
+            <p>1. Em que animal Moody transfigurou Malfoy?</p>
+            <div>
+                <img src="https://images.freeimages.com/images/premium/previews/9062/9062618-ferret-face.jpg" alt=""> <div> Gato </div>
+                <img src="https://images.freeimages.com/images/premium/previews/9062/9062618-ferret-face.jpg" alt=""> <div> Gato </div>
+                <img src="https://images.freeimages.com/images/premium/previews/9062/9062618-ferret-face.jpg" alt=""> <div> Gato </div>
+                <img src="https://images.freeimages.com/images/premium/previews/9062/9062618-ferret-face.jpg" alt=""> <div> Furão </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="resultadoQuizz">
+        <header><h1>BuzzQuizz</h1></header>
+
+        <div class="containerResultado">
+            <h2>O quão Potterhead você é?</h2>
+            <div>
+                <p>Voce acertou 7 de 8 perguntas!</p>
+                <p>Score: 88%</p>
+            </div>
+            <div class="textoImg">
+                <div>
+                    <h6>Lorem ipsum dolor sit amet consectetur, adipisicing elit. </h6>
+                    <p> Incidunt vel repudiandae, repellendus quidem veritatis nostrum aliquid. Minus pariatur ipsum illo. Perspiciatis, earum minima blanditiis quas voluptas distinctio optio sequi expedita!</p>
+                </div>
+                <div>
+                    <img src="https://images.freeimages.com/images/premium/previews/9062/9062618-ferret-face.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+</body>
+</html>
