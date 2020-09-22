@@ -1,6 +1,6 @@
 #login {
     font-family: 'Roboto', sans-serif;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -38,5 +38,8 @@
     margin-left: 35px;
     margin-right: 35px;
     margin-top: 10px;
-    font-size: 25px;
+    font-size: 20px;
+    padding: 5px 5px;
+    background-color: darkblue;
+    color: #fff;
 }
