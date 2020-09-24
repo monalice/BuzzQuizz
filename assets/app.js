@@ -63,6 +63,9 @@ function abreCriandoQuizz() {
     
     var abre = document.querySelector("#criandoQuizz");
     abre.style.display = "flex";
+
+    addCardPergunta();
+    addCardNivel();
 }
 
 function addPergunta() {
@@ -83,9 +86,6 @@ function addPergunta() {
     }
 
     postQuizz.data.perguntas.push(objeto);
-
-    contPerg++;
-    addCardPergunta();
 }
 
 function addCardPergunta() {
@@ -95,6 +95,8 @@ function addCardPergunta() {
     div.innerHTML = "<h2>Pergunta " + contPerg + "</h2><input class='aPergunta' type='text' placeholder='Digite a pergunta'><div class='respostas'><input class='correto resp1' type='text' placeholder='Digite a resposta correta'><input class='correto img1' type='text' placeholder='Link para a imagem correta'><input class='incorreto resp2' type='text' placeholder='Digite a resposta errada 1'><input class='incorreto img2' type='text' placeholder='Link para a imagem errada 1'><input class='incorreto resp3' type='text' placeholder='Digite a resposta errada 2'><input class='incorreto img3' type='text' placeholder='Link para a imagem errada 2'><input class='incorreto resp4' type='text' placeholder='Digite a resposta errada 3'><input class='incorreto img4' type='text' placeholder='Link para a imagem errada 3'></div>";
 
     perguntas.appendChild(div);
+    contPerg++;
+    addPergunta();
 }
 
 function addNivel() {
@@ -108,9 +110,6 @@ function addNivel() {
     }
 
     postQuizz.data.niveis.push(objeto);
-
-    contNivel++;
-    addCardNivel();
 }
 
 function addCardNivel() {
@@ -121,14 +120,20 @@ function addCardNivel() {
     div.innerHTML = "<h2>Nível " + contNivel + "</h2><div><input type='text' class='min' placeholder='% Mínima de Acerto do nível'><input type='text' class='max' placeholder='% Máxima de Acerto do nível'></div><div><input type='text' class='tituloNiv' placeholder='Títudo do nível'><input type='text' class='imgNivel' placeholder='Link da imagem do nível'><input type='text' class='descricao' placeholder='Descrição do nível'></div>";
 
     niveis.appendChild(div);
+    contNivel++;
+    addNivel();
 }
 
+//Publicando Quizz
+//ZERAR OS CAMPOS QUANDO CLICAR EM PUBLICAR
 function criandoQuizz() {
 
     var req = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v1/buzzquizz/quizzes', postQuizz, myToken);
     
     req.then(voltaMeusQuizzes);
 }
+
+//MeusQuizzes
 
 function voltaMeusQuizzes() {
 
@@ -142,17 +147,33 @@ function voltaMeusQuizzes() {
     req.then(addCardsQuizzes);
 }
 
+//Refatorar e criar renders!!
 function addCardsQuizzes(response) {
+    limpaQuizzes();
+    var container = document.querySelector(".containerQuizzes");
+    var quizzes = [];
     
     for(i = 0; i < response.data.length; i++) {
         var title = response.data[i].title;
-        var container = document.querySelector(".containerQuizzes");
+        
         var cardQuizz = document.createElement("div");
         
         cardQuizz.innerHTML = "<div class='quizzesCriados' onclick='abreQuizz(this)'><p>" + title + "</p></div>";
 
-        container.appendChild(cardQuizz);
+        quizzes.push(cardQuizz);
+        container.appendChild(quizzes[i]);
     }
 
+
     console.log(response);
+}
+function limpaQuizzes() {
+
+    var container = document.querySelector(".containerQuizzes");
+    container.innerHTML = "<div class='containerQuizzes'><div class='novoQuizz'><span>Novo Quizz</span><div onclick='abreCriandoQuizz()' class='addQuizz'><ion-icon name='add-circle-outline'></ion-icon></div></div></div>"
+    
+}
+
+function abreQuizz(elemento) {
+    console.log(elemento);
 }

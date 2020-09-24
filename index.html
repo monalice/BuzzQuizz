@@ -50,51 +50,19 @@
             <input id="title" type="text" placeholder="Digite o título do seu quizz">
            
             <div id="perguntas">
-                <div class="pergunta">
-                    
-                    <h2>Pergunta 1</h2>
-                    <input class="aPergunta" type="text" placeholder="Digite a pergunta">
-                    
-                    <div class="respostas">
-    
-                        <input class="correto resp1" type="text" placeholder="Digite a resposta correta">
-                        <input class="correto img1" type="text" placeholder="Link para a imagem correta">
-    
-                        <input class="incorreto resp2" type="text" placeholder="Digite a resposta errada 1">
-                        <input class="incorreto img2" type="text" placeholder="Link para a imagem errada 1">
-    
-                        <input class="incorreto resp3" type="text" placeholder="Digite a resposta errada 2">
-                        <input class="incorreto img3" type="text" placeholder="Link para a imagem errada 2">
-    
-                        <input class="incorreto resp4" type="text" placeholder="Digite a resposta errada 3">
-                        <input class="incorreto img4" type="text" placeholder="Link para a imagem errada 3">
-    
-                    </div>
-                </div>
+                
             </div>
-            <button class="add" onclick="addPergunta()">
+            <button class="add" onclick="
+            addCardPergunta()">
 
                 <ion-icon name="add-circle-sharp"></ion-icon>
             </button>
             
             <div id="niveis">
-                <div class="nivel">
-                    <h2>Nível 1</h2>
-                    
-                    <div>
-                        <input type="text" class="min" placeholder="% Mínima de Acerto do nível">
-                        <input type="text" class="max" placeholder="% Máxima de Acerto do nível">
-                    </div>
-                    <div>
-                        <input type="text" class="tituloNiv" placeholder="Títudo do nível">
-                        <input type="text" class="imgNivel" placeholder="Link da imagem do nível">
-                        <input type="text" class="descricao" placeholder="Descrição do nível">
-                    </div>
                 
-                </div>
             </div>
             
-            <button class="add" onclick="addNivel()">
+            <button class="add" onclick="addCardNivel()">
                 <ion-icon name="add-circle-sharp"></ion-icon>
             </button>
 
