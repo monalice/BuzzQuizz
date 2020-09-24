@@ -147,7 +147,7 @@ function voltaMeusQuizzes() {
     req.then(addCardsQuizzes);
 }
 
-//Refatorar e criar renders!!
+//Refatorar e criar renders!! (pra geral msm)
 function addCardsQuizzes(response) {
     limpaQuizzes();
     var container = document.querySelector(".containerQuizzes");
@@ -164,8 +164,7 @@ function addCardsQuizzes(response) {
         container.appendChild(quizzes[i]);
     }
 
-
-    console.log(response);
+    resposta = response;
 }
 function limpaQuizzes() {
 
@@ -176,4 +175,5 @@ function limpaQuizzes() {
 
 function abreQuizz(elemento) {
     console.log(elemento);
+    console.log(resposta);
 }
