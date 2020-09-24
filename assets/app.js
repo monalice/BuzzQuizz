@@ -1,4 +1,15 @@
 
+var postQuizz = {
+    title: '',
+    data: {
+        perguntas: [],
+        niveis: []
+    }
+};
+var contPerg = 1;
+var contNivel = 1;
+var myToken;
+
 //login
 
 function realizaLogin() {
@@ -38,8 +49,9 @@ function chamaMeusQuizzes(response) {
     var abre = document.querySelector("#meusQuizzes");
     abre.style.display = "flex";
 
-    const myToken = {headers: {"User-Token":response.data.token}};
+    myToken = {headers: {"User-Token":response.data.token}};
     var req = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/buzzquizz/quizzes', myToken);
+    req.then(addCardsQuizzes);
 }
 
 //Criando Quizz
@@ -51,41 +63,96 @@ function abreCriandoQuizz() {
     
     var abre = document.querySelector("#criandoQuizz");
     abre.style.display = "flex";
-    criandoQuizz();
+}
+
+function addPergunta() {
+
+    postQuizz.title = document.getElementById("title").value;
+
+    objeto = {
+        titulo: document.querySelector(".aPergunta").value,
+        opcoes: [
+            {img: document.querySelector(".img1").value,
+            text: document.querySelector(".resp1").value},
+            {img: document.querySelector(".img2").value,
+            text: document.querySelector(".resp2").value},
+            {img: document.querySelector(".img3").value,
+            text: document.querySelector(".resp3").value},
+            {img: document.querySelector(".img4").value,
+            text: document.querySelector(".resp4").value}]
+    }
+
+    postQuizz.data.perguntas.push(objeto);
+
+    contPerg++;
+    addCardPergunta();
+}
+
+function addCardPergunta() {
+    var perguntas = document.getElementById("perguntas");
+    var div = document.createElement("div");
+    div.classList.add("pergunta");
+    div.innerHTML = "<h2>Pergunta " + contPerg + "</h2><input class='aPergunta' type='text' placeholder='Digite a pergunta'><div class='respostas'><input class='correto resp1' type='text' placeholder='Digite a resposta correta'><input class='correto img1' type='text' placeholder='Link para a imagem correta'><input class='incorreto resp2' type='text' placeholder='Digite a resposta errada 1'><input class='incorreto img2' type='text' placeholder='Link para a imagem errada 1'><input class='incorreto resp3' type='text' placeholder='Digite a resposta errada 2'><input class='incorreto img3' type='text' placeholder='Link para a imagem errada 2'><input class='incorreto resp4' type='text' placeholder='Digite a resposta errada 3'><input class='incorreto img4' type='text' placeholder='Link para a imagem errada 3'></div>";
+
+    perguntas.appendChild(div);
+}
+
+function addNivel() {
+
+    objeto = {
+        min: document.querySelector(".min").value,
+        max: document.querySelector(".max").value,
+        titulo: document.querySelector(".tituloNiv").value,
+        descricao: document.querySelector(".descricao").value,
+        img: document.querySelector(".imgNivel").value,
+    }
+
+    postQuizz.data.niveis.push(objeto);
+
+    contNivel++;
+    addCardNivel();
+}
+
+function addCardNivel() {
+
+    var niveis = document.getElementById("niveis");
+    var div = document.createElement("div");
+    div.classList.add("nivel");
+    div.innerHTML = "<h2>Nível " + contNivel + "</h2><div><input type='text' class='min' placeholder='% Mínima de Acerto do nível'><input type='text' class='max' placeholder='% Máxima de Acerto do nível'></div><div><input type='text' class='tituloNiv' placeholder='Títudo do nível'><input type='text' class='imgNivel' placeholder='Link da imagem do nível'><input type='text' class='descricao' placeholder='Descrição do nível'></div>";
+
+    niveis.appendChild(div);
 }
 
 function criandoQuizz() {
 
-    var title = document.getElementById("title");
-    var tituloPerg = document.querySelector(".aPergunta");
-    var imgResp = document.querySelector(".img");
-    var textResp = document.querySelector(".resp");
-
-    var min = document.querySelector(".min");
-    var max = document.querySelector(".max");
-    var tituloNivel = document.querySelector(".tituloNiv");
-    var descricao = document.querySelector(".descricao");
-    var imgNivel = document.querySelector(".imgNivel");
+    var req = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v1/buzzquizz/quizzes', postQuizz, myToken);
     
-    postQuizz = {
-        title: title.value,
-        data: {
-            perguntas:[
-                {titulo: tituloPerg.value, 
-                respostas: [{ 
-                    img: imgResp.value,
-                    text: textResp.value,
-                    classe,}]}
-            ], 
-            //na hora de add perguntas, data.perguntas.push//
+    req.then(voltaMeusQuizzes);
+}
 
-            niveis: [{
-                min: min.value,
-                max: max.value,
-                titulo: tituloNivel.value,
-                descricao: descricao.value,
-                img: imgNivel.value}]
-        }
-    };
+function voltaMeusQuizzes() {
 
+    var fecha = document.querySelector("#criandoQuizz");
+    fecha.style.display = "none";
+    
+    var abre = document.querySelector("#meusQuizzes");
+    abre.style.display = "flex";
+
+    var req = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/buzzquizz/quizzes', myToken);
+    req.then(addCardsQuizzes);
+}
+
+function addCardsQuizzes(response) {
+    
+    for(i = 0; i < response.data.length; i++) {
+        var title = response.data[i].title;
+        var container = document.querySelector(".containerQuizzes");
+        var cardQuizz = document.createElement("div");
+        
+        cardQuizz.innerHTML = "<div class='quizzesCriados' onclick='abreQuizz(this)'><p>" + title + "</p></div>";
+
+        container.appendChild(cardQuizz);
+    }
+
+    console.log(response);
 }

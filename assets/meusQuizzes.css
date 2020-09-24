@@ -13,9 +13,14 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    flex-wrap: wrap;
     width: 85%;
     height: auto;
     font-weight: 600;
+}
+.containerQuizzes > * {
+    margin: 5px 5px;
+    cursor: pointer;
 }
 
 .novoQuizz {

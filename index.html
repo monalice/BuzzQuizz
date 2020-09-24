@@ -39,10 +39,6 @@
                     <ion-icon name="add-circle-outline"></ion-icon>
                 </div>
             </div>
-
-            <!--<div class="quizzesCriados" onclick="abreQuizz(this)">
-                <p>O quão Potterhead você é?</p>
-            </div>-->
         </div>
     </section>
 
@@ -61,22 +57,22 @@
                     
                     <div class="respostas">
     
-                        <input class="correto resp" type="text" placeholder="Digite a resposta correta">
-                        <input class="correto img" type="text" placeholder="Link para a imagem correta">
+                        <input class="correto resp1" type="text" placeholder="Digite a resposta correta">
+                        <input class="correto img1" type="text" placeholder="Link para a imagem correta">
     
-                        <input class="incorreto resp" type="text" placeholder="Digite a resposta errada 1">
-                        <input class="incorreto img" type="text" placeholder="Link para a imagem errada 1">
+                        <input class="incorreto resp2" type="text" placeholder="Digite a resposta errada 1">
+                        <input class="incorreto img2" type="text" placeholder="Link para a imagem errada 1">
     
-                        <input class="incorreto resp" type="text" placeholder="Digite a resposta errada 2">
-                        <input class="incorreto img" type="text" placeholder="Link para a imagem errada 2">
+                        <input class="incorreto resp3" type="text" placeholder="Digite a resposta errada 2">
+                        <input class="incorreto img3" type="text" placeholder="Link para a imagem errada 2">
     
-                        <input class="incorreto resp" type="text" placeholder="Digite a resposta errada 3">
-                        <input class="incorreto img" type="text" placeholder="Link para a imagem errada 3">
+                        <input class="incorreto resp4" type="text" placeholder="Digite a resposta errada 3">
+                        <input class="incorreto img4" type="text" placeholder="Link para a imagem errada 3">
     
                     </div>
                 </div>
             </div>
-            <button class="add">
+            <button class="add" onclick="addPergunta()">
 
                 <ion-icon name="add-circle-sharp"></ion-icon>
             </button>
@@ -98,11 +94,11 @@
                 </div>
             </div>
             
-            <button class="add">
+            <button class="add" onclick="addNivel()">
                 <ion-icon name="add-circle-sharp"></ion-icon>
             </button>
 
-            <button class="publicar">Publicar</button>
+            <button class="publicar" onclick="criandoQuizz()">Publicar</button>
 
         </div>
     </section>
