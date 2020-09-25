@@ -9,6 +9,8 @@ var postQuizz = {
 var contPerg = 1;
 var contNivel = 1;
 var myToken;
+var resposta;
+var objeto = {};
 
 //login
 
@@ -40,6 +42,15 @@ function usuarioIncorreto() {
     entrar.removeAttribute("disabled");
 }
 
+//Clique retorno Meus Quizzes
+
+/* PRECISO ALTERAR AS TROCAS DE TELA PRA TOGGLE DE CLASS COM DISPLAY NONE / FLEX
+var header = document.querySelector("header");
+header.setAttribute('onclick', retornoMeusQuizzes());
+
+function retornoMeusQuizzes(){
+
+}*/
 //Meus Quizzes
 
 function chamaMeusQuizzes(response) {
@@ -72,6 +83,7 @@ function addPergunta() {
 
     postQuizz.title = document.getElementById("title").value;
 
+
     objeto = {
         titulo: document.querySelector(".aPergunta").value,
         opcoes: [
@@ -86,6 +98,8 @@ function addPergunta() {
     }
 
     postQuizz.data.perguntas.push(objeto);
+
+    addCardPergunta();
 }
 
 function addCardPergunta() {
@@ -96,20 +110,6 @@ function addCardPergunta() {
 
     perguntas.appendChild(div);
     contPerg++;
-    addPergunta();
-}
-
-function addNivel() {
-
-    objeto = {
-        min: document.querySelector(".min").value,
-        max: document.querySelector(".max").value,
-        titulo: document.querySelector(".tituloNiv").value,
-        descricao: document.querySelector(".descricao").value,
-        img: document.querySelector(".imgNivel").value,
-    }
-
-    postQuizz.data.niveis.push(objeto);
 }
 
 function addCardNivel() {
@@ -121,15 +121,29 @@ function addCardNivel() {
 
     niveis.appendChild(div);
     contNivel++;
-    addNivel();
 }
 
-//Publicando Quizz
+function addNivel() {
+
+
+    objeto = {
+        min: document.querySelector(".min").value,
+        max: document.querySelector(".max").value,
+        titulo: document.querySelector(".tituloNiv").value,
+        descricao: document.querySelector(".descricao").value,
+        img: document.querySelector(".imgNivel").value,
+    }
+
+    postQuizz.data.niveis.push(objeto);
+
+    addCardNivel();
+}
+
 //ZERAR OS CAMPOS QUANDO CLICAR EM PUBLICAR
+//quando clica em publicar
 function criandoQuizz() {
 
     var req = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v1/buzzquizz/quizzes', postQuizz, myToken);
-    
     req.then(voltaMeusQuizzes);
 }
 
@@ -140,8 +154,8 @@ function voltaMeusQuizzes() {
     var fecha = document.querySelector("#criandoQuizz");
     fecha.style.display = "none";
     
-    var abre = document.querySelector("#meusQuizzes");
-    abre.style.display = "flex";
+    meusQuizzes = document.querySelector("#meusQuizzes");
+    meusQuizzes.style.display = "flex";
 
     var req = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/buzzquizz/quizzes', myToken);
     req.then(addCardsQuizzes);
@@ -155,16 +169,17 @@ function addCardsQuizzes(response) {
     
     for(i = 0; i < response.data.length; i++) {
         var title = response.data[i].title;
+        var id = response.data[i].id;
         
         var cardQuizz = document.createElement("div");
         
-        cardQuizz.innerHTML = "<div class='quizzesCriados' onclick='abreQuizz(this)'><p>" + title + "</p></div>";
+        cardQuizz.innerHTML = "<div class='quizzesCriados' onclick='abreQuizz(this, "+ id +")'><p>" + title + "</p></div>";
 
         quizzes.push(cardQuizz);
         container.appendChild(quizzes[i]);
     }
 
-    resposta = response;
+    resposta = response.data;
 }
 function limpaQuizzes() {
 
@@ -173,7 +188,43 @@ function limpaQuizzes() {
     
 }
 
-function abreQuizz(elemento) {
-    console.log(elemento);
-    console.log(resposta);
+function abreQuizz(elemento, id) {
+
+    for(i = 0; i < resposta.length; i++) {
+        if (id == resposta[i].id){
+            executaQuizz(resposta[i]);
+        }
+    }
+}
+
+var telaQuizz = document.querySelector("#perguntaQuizz");
+function executaQuizz(quizz) {
+    meusQuizzes.style.display = "none";
+    telaQuizz.style.display = "flex";
+
+    renderQuizz(quizz);
+}
+
+function renderQuizz(quizz) {
+    console.log(quizz);
+    contPerg = 1;
+
+    var pergData = quizz.data.perguntas;
+    var perguntaDiv = document.createElement("div");
+    perguntaDiv.classList.add("perguntaQuizz");
+    
+    perguntaDiv.innerHTML += "<h2>" + quizz.title + "</h2>";
+
+    for(i = 0; i < pergData.length; i++){
+        perguntaDiv.innerHTML += "<p>" + contPerg + ". " + pergData[i].titulo + "</p>";
+
+        for(j = 0; j < pergData[i].opcoes.length; j++) {
+
+            perguntaDiv.innerHTML += "<div class='alternativas'><div class='alternativa' onclick='resposta(this)'><img src=" + pergData[i].opcoes[j].img + "><p>" + pergData[i].opcoes[j].text + "</p></div>";
+            
+            telaQuizz.appendChild(perguntaDiv);
+        }
+        
+    }
+    console.log(perguntaDiv);  
 }

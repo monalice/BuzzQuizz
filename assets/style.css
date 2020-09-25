@@ -16,3 +16,11 @@ button, ion-icon {
     cursor: pointer;
     margin: 10px 10px;
 }
+
+.correto {
+    background-color: lightgreen;
+}
+
+.incorreto {
+    background-color: lightpink;
+}
