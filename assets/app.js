@@ -1,4 +1,8 @@
 
+var login = document.querySelector("#login");
+var meusQuizzes = document.querySelector("#meusQuizzes");
+var criandoQuizz = document.querySelector("#criandoQuizz");
+
 var postQuizz = {
     title: '',
     data: {
@@ -6,11 +10,11 @@ var postQuizz = {
         niveis: []
     }
 };
+
 var contPerg = 1;
 var contNivel = 1;
 var myToken;
 var resposta;
-var objeto = {};
 
 //login
 
@@ -22,6 +26,9 @@ function realizaLogin() {
         password: senha.value
     }
 
+    entrar = document.querySelector(".entrar");
+    entrar.setAttribute("disabled", "disabled");
+
     verificaLogin(email, senha, usuario);
 }
 
@@ -30,8 +37,7 @@ function verificaLogin(email, senha, usuario) {
     if(email.value == "" || senha.value == "") {
         alert("Preencha os campos com seu Email e Senha!");
     } else {
-        entrar = document.querySelector(".entrar");
-        entrar.setAttribute("disabled", "disabled");
+       
         var req = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v1/buzzquizz/users',usuario);
         req.then(chamaMeusQuizzes).catch(usuarioIncorreto);
     }
@@ -44,7 +50,7 @@ function usuarioIncorreto() {
 
 //Clique retorno Meus Quizzes
 
-/* PRECISO ALTERAR AS TROCAS DE TELA PRA TOGGLE DE CLASS COM DISPLAY NONE / FLEX
+/* 
 var header = document.querySelector("header");
 header.setAttribute('onclick', retornoMeusQuizzes());
 
@@ -54,11 +60,9 @@ function retornoMeusQuizzes(){
 //Meus Quizzes
 
 function chamaMeusQuizzes(response) {
-    var fecha = document.querySelector("#login");
-    fecha.style.display = "none";
-    
-    var abre = document.querySelector("#meusQuizzes");
-    abre.style.display = "flex";
+
+    login.style.display = "none";
+    meusQuizzes.style.display = "flex";
 
     myToken = {headers: {"User-Token":response.data.token}};
     var req = axios.get('https://mock-api.bootcamp.respondeai.com.br/api/v1/buzzquizz/quizzes', myToken);
@@ -68,45 +72,57 @@ function chamaMeusQuizzes(response) {
 //Criando Quizz
 
 function abreCriandoQuizz() {
-
-    var fecha = document.querySelector("#meusQuizzes");
-    fecha.style.display = "none";
-    
-    var abre = document.querySelector("#criandoQuizz");
-    abre.style.display = "flex";
+    meusQuizzes.style.display = "none";
+    criandoQuizz.style.display = "flex";
 
     addCardPergunta();
     addCardNivel();
 }
 
 function addPergunta() {
+    var objeto = {
+        titulo: "",
+        opcoes: [
+            opcao = {}
+        ]
+    };
+    var imgs = document.getElementsByClassName("img");
+    var texts = document.getElementsByClassName("resp");
+    var titulos = document.getElementsByClassName("aPergunta");
 
     postQuizz.title = document.getElementById("title").value;
 
+    for(var i = 0; i < contPerg; i++) {
 
-    objeto = {
-        titulo: document.querySelector(".aPergunta").value,
-        opcoes: [
-            {img: document.querySelector(".img1").value,
-            text: document.querySelector(".resp1").value},
-            {img: document.querySelector(".img2").value,
-            text: document.querySelector(".resp2").value},
-            {img: document.querySelector(".img3").value,
-            text: document.querySelector(".resp3").value},
-            {img: document.querySelector(".img4").value,
-            text: document.querySelector(".resp4").value}]
+        objeto.titulo = titulos[i].value;
+
+        for(var j = 0; j < 4; j++) {
+            opcao.img = imgs[j].value;
+
+            opcao.text = texts[j].value;
+
+            if(texts[j].classList.contains("correto")) {
+                opcao.classe = "correto";
+            } else {
+                opcao.classe = "incorreto";
+            }
+
+            objeto.opcoes.push(opcao);
+        }
     }
 
     postQuizz.data.perguntas.push(objeto);
 
-    addCardPergunta();
+    console.log(contPerg);
+    console.log(objeto);
+    contPerg++;
 }
 
 function addCardPergunta() {
     var perguntas = document.getElementById("perguntas");
     var div = document.createElement("div");
     div.classList.add("pergunta");
-    div.innerHTML = "<h2>Pergunta " + contPerg + "</h2><input class='aPergunta' type='text' placeholder='Digite a pergunta'><div class='respostas'><input class='correto resp1' type='text' placeholder='Digite a resposta correta'><input class='correto img1' type='text' placeholder='Link para a imagem correta'><input class='incorreto resp2' type='text' placeholder='Digite a resposta errada 1'><input class='incorreto img2' type='text' placeholder='Link para a imagem errada 1'><input class='incorreto resp3' type='text' placeholder='Digite a resposta errada 2'><input class='incorreto img3' type='text' placeholder='Link para a imagem errada 2'><input class='incorreto resp4' type='text' placeholder='Digite a resposta errada 3'><input class='incorreto img4' type='text' placeholder='Link para a imagem errada 3'></div>";
+    div.innerHTML += "<h2>Pergunta " + contPerg + "</h2><input class='aPergunta' type='text' placeholder='Digite a pergunta'><div class='respostas'><input class='correto resp1' type='text' placeholder='Digite a resposta correta'><input class='correto img1' type='text' placeholder='Link para a imagem correta'><input class='incorreto resp2' type='text' placeholder='Digite a resposta errada 1'><input class='incorreto img2' type='text' placeholder='Link para a imagem errada 1'><input class='incorreto resp3' type='text' placeholder='Digite a resposta errada 2'><input class='incorreto img3' type='text' placeholder='Link para a imagem errada 2'><input class='incorreto resp4' type='text' placeholder='Digite a resposta errada 3'><input class='incorreto img4' type='text' placeholder='Link para a imagem errada 3'></div>";
 
     perguntas.appendChild(div);
     contPerg++;
@@ -136,12 +152,14 @@ function addNivel() {
 
     postQuizz.data.niveis.push(objeto);
 
-    addCardNivel();
 }
 
 //ZERAR OS CAMPOS QUANDO CLICAR EM PUBLICAR
 //quando clica em publicar
-function criandoQuizz() {
+function publicaQuizz() {
+
+    addPergunta();
+    addNivel();
 
     var req = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v1/buzzquizz/quizzes', postQuizz, myToken);
     req.then(voltaMeusQuizzes);
@@ -153,7 +171,7 @@ function voltaMeusQuizzes() {
 
     var fecha = document.querySelector("#criandoQuizz");
     fecha.style.display = "none";
-    
+
     meusQuizzes = document.querySelector("#meusQuizzes");
     meusQuizzes.style.display = "flex";
 
