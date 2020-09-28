@@ -1,2 +1,0 @@
-# BuzzQuizz
-First big project
